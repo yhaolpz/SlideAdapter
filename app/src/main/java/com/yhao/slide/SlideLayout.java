@@ -1,4 +1,4 @@
-package com.xmwj.slidingmenu;
+package com.yhao.slide;
 
 /**
  * created by yhao on 2017/8/11.
@@ -13,19 +13,22 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 
-public class SlidingMenu extends HorizontalScrollView {
+public class SlideLayout extends HorizontalScrollView {
 
 
     //菜单占屏幕宽度比
     private static final float radio = 0.3f;
     private final int mScreenWidth;
     private final int mMenuWidth;
-
-
     private boolean once = true;
     private boolean isOpen;
 
-    public SlidingMenu(final Context context, AttributeSet attrs) {
+    public SlideLayout(Context context) {
+        this(context, null);
+    }
+
+
+    public SlideLayout(final Context context, AttributeSet attrs) {
         super(context, attrs);
         mScreenWidth = ScreenUtil.getScreenWidth(context);
         mMenuWidth = (int) (mScreenWidth * radio);
@@ -33,27 +36,18 @@ public class SlidingMenu extends HorizontalScrollView {
         setHorizontalScrollBarEnabled(false);
     }
 
-    /**
-     * 关闭菜单
-     */
 
-    public void closeMenu() {
+    public void closeItem() {
         this.smoothScrollTo(0, 0);
         isOpen = false;
     }
 
-    /**
-     * 菜单是否打开
-     */
     public boolean isOpen() {
         return isOpen;
     }
 
 
-    /**
-     * 获取 adapter
-     */
-    private MyAdapter getAdapter() {
+    private SlideAdapter getAdapter() {
         View view = this;
         while (true) {
             view = (View) view.getParent();
@@ -61,38 +55,26 @@ public class SlidingMenu extends HorizontalScrollView {
                 break;
             }
         }
-        return (MyAdapter) ((RecyclerView) view).getAdapter();
+        return (SlideAdapter) ((RecyclerView) view).getAdapter();
     }
 
-    /**
-     * 当打开菜单时记录此 view ，方便下次关闭
-     */
     private void onOpenMenu() {
-        getAdapter().holdOpenMenu(this);
+        getAdapter().holdOpenItem(this);
         isOpen = true;
     }
 
-    /**
-     * 当触摸此 item 时，关闭上一次打开的 item
-     */
     private void closeOpenMenu() {
         if (!isOpen) {
-            getAdapter().closeOpenMenu();
+            getAdapter().closeOpenItem();
         }
     }
 
-    /**
-     * 获取正在滑动的 item
-     */
-    public SlidingMenu getScrollingMenu() {
-        return getAdapter().getScrollingMenu();
+    public SlideLayout getScrollingItem() {
+        return getAdapter().getScrollingItem();
     }
 
-    /**
-     * 设置本 item 为正在滑动 item
-     */
-    public void setScrollingMenu(SlidingMenu scrollingMenu) {
-        getAdapter().setScrollingMenu(scrollingMenu);
+    public void setScrollingItem(SlideLayout scrollingItem) {
+        getAdapter().setScrollingItem(scrollingItem);
     }
 
 
@@ -110,17 +92,17 @@ public class SlidingMenu extends HorizontalScrollView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        if (getScrollingMenu() != null && getScrollingMenu() != this) {
+        if (getScrollingItem() != null && getScrollingItem() != this) {
             return false;
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downTime = System.currentTimeMillis();
                 closeOpenMenu();
-                setScrollingMenu(this);
+                setScrollingItem(this);
                 break;
             case MotionEvent.ACTION_UP:
-                setScrollingMenu(null);
+                setScrollingItem(null);
                 int scrollX = getScrollX();
                 if (System.currentTimeMillis() - downTime <= 100 && scrollX == 0) {
                     if (mCustomOnClickListener != null) {
@@ -138,6 +120,7 @@ public class SlidingMenu extends HorizontalScrollView {
         }
         return super.onTouchEvent(ev);
     }
+
     long downTime = 0;
 
 
