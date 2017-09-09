@@ -1,11 +1,18 @@
 package com.yhao.slide;
 
 /**
- * created by yhao on 2017/9/8.
+ * created by yhao on 2017/9/9.
  */
 
 
-public interface ItemBind {
+public abstract class ItemBind<T> implements IItemBind {
 
-    void bind(ViewHolder holder, int position);
+
+    @Override
+    public final void bind(SlideHolder holder, Object data, int position) {
+        onBind(holder, (T) data, position);
+    }
+
+
+    public abstract void onBind(SlideHolder holder, T data, int postion);
 }

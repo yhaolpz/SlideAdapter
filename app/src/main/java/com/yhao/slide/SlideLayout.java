@@ -10,18 +10,22 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 
 
 public class SlideLayout extends HorizontalScrollView {
 
 
-    //菜单占屏幕宽度比
-    private static final float radio = 0.3f;
-    private final int mScreenWidth;
-    private final int mMenuWidth;
-    private boolean once = true;
+    private int mLeftMenuWidth;
+    private int mRightMenuWidth;
     private boolean isOpen;
+
+    public void setLeftMenuWidth(int leftMenuWidth) {
+        mLeftMenuWidth = leftMenuWidth;
+    }
+
+    public void setRightMenuWidth(int rightMenuWidth) {
+        mRightMenuWidth = rightMenuWidth;
+    }
 
     public SlideLayout(Context context) {
         this(context, null);
@@ -30,16 +34,25 @@ public class SlideLayout extends HorizontalScrollView {
 
     public SlideLayout(final Context context, AttributeSet attrs) {
         super(context, attrs);
-        mScreenWidth = ScreenUtil.getScreenWidth(context);
-        mMenuWidth = (int) (mScreenWidth * radio);
         setOverScrollMode(View.OVER_SCROLL_NEVER);
         setHorizontalScrollBarEnabled(false);
     }
 
-
-    public void closeItem() {
-        this.smoothScrollTo(0, 0);
+    public void close() {
         isOpen = false;
+        this.smoothScrollTo(mLeftMenuWidth, 0);
+    }
+
+    public void openLeftMenu() {
+        isOpen = true;
+        this.smoothScrollTo(0, 0);
+        onOpenMenu();
+    }
+
+    public void openRightMenu() {
+        isOpen = true;
+        this.smoothScrollBy(mRightMenuWidth + mLeftMenuWidth + mRightMenuWidth, 0);
+        onOpenMenu();
     }
 
     public boolean isOpen() {
@@ -60,11 +73,10 @@ public class SlideLayout extends HorizontalScrollView {
 
     private void onOpenMenu() {
         getAdapter().holdOpenItem(this);
-        isOpen = true;
     }
 
     private void closeOpenMenu() {
-        if (!isOpen) {
+        if (!isOpen()) {
             getAdapter().closeOpenItem();
         }
     }
@@ -79,13 +91,13 @@ public class SlideLayout extends HorizontalScrollView {
 
 
     @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        scrollTo(mLeftMenuWidth, 0);
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (once) {
-            LinearLayout wrapper = (LinearLayout) getChildAt(0);
-            wrapper.getChildAt(0).getLayoutParams().width = mScreenWidth;
-            wrapper.getChildAt(1).getLayoutParams().width = mMenuWidth;
-            once = false;
-        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -104,25 +116,28 @@ public class SlideLayout extends HorizontalScrollView {
             case MotionEvent.ACTION_UP:
                 setScrollingItem(null);
                 int scrollX = getScrollX();
-                if (System.currentTimeMillis() - downTime <= 100 && scrollX == 0) {
+                if (System.currentTimeMillis() - downTime <= 100 && scrollX == mLeftMenuWidth) {
                     if (mCustomOnClickListener != null) {
                         mCustomOnClickListener.onClick();
                     }
                     return false;
                 }
-                if (Math.abs(scrollX) > mMenuWidth / 2) {
-                    this.smoothScrollTo(mMenuWidth, 0);
-                    onOpenMenu();
-                } else {
-                    this.smoothScrollTo(0, 0);
+                if (scrollX < mLeftMenuWidth / 2) {
+                    openLeftMenu();
+                }
+                if (scrollX >= mLeftMenuWidth / 2 && scrollX <= mLeftMenuWidth + mRightMenuWidth / 2) {
+                    close();
+                }
+                if (scrollX > mLeftMenuWidth + mRightMenuWidth / 2) {
+                    openRightMenu();
                 }
                 return false;
         }
         return super.onTouchEvent(ev);
     }
 
-    long downTime = 0;
 
+    long downTime = 0;
 
     interface CustomOnClickListener {
         void onClick();

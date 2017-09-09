@@ -1,7 +1,7 @@
 package com.yhao.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,19 +10,20 @@ import android.widget.TextView;
 import com.xmwj.slidingmenu.R;
 import com.yhao.slide.ItemBind;
 import com.yhao.slide.ItemType;
+import com.yhao.slide.SAdapter;
 import com.yhao.slide.SlideAdapter;
-import com.yhao.slide.ViewHolder;
+import com.yhao.slide.SlideHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    public static void logd(String text) {
+    public static void ddd(String text) {
         Log.d("YHAO", text);
     }
 
-    public static void loge(String text) {
+    public static void eee(String text) {
         Log.e("YHAO", text);
     }
 
@@ -47,31 +48,25 @@ public class HomeActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new MyItemDecoration());
 
 
-        new SlideAdapter
-                .Builder()
+        SAdapter
+                .data(data)
                 .item(R.layout.item)
-                .rightMenu(R.layout.right_menu)
-                .size(data.size())
-                .bind(new ItemBind() {
+                .item(R.layout.item2, R.layout.right_menu, 0.2f, 0, 0)
+                .bind(new ItemBind<String>() {
                     @Override
-                    public void bind(ViewHolder holder, int position) {
+                    public void onBind(SlideHolder holder, String s, int position) {
                         TextView textView = holder.getView(R.id.textView);
-                        textView.setText(data.get(position));
+                        textView.setText(s);
+                    }
+                })
+                .type(new ItemType<String>() {
+
+                    @Override
+                    public int viewType(String data, int position) {
+                        return position % 2 == 0 ? 1 : 2;
                     }
                 })
                 .into(mRecyclerView);
-
-
-
-
-
-
-//           .items(new ItemType() {
-//            @Override
-//            public int getItemType(int position) {
-//                return position % 2 == 0 ? 0 : 1;
-//            }
-//        }, R.layout.item, R.layout.item2)
 
 
     }
