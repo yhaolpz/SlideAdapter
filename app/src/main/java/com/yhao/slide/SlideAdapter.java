@@ -65,6 +65,7 @@ public class SlideAdapter extends RecyclerView.Adapter<SlideHolder> {
     public void onBindViewHolder(final SlideHolder holder, int position) {
         ddd("onBindViewHolder ");
         final SAdapter.SlideItem item = mSlideItems.get(getItemViewType(position) - 1);
+
         holder.itemView.post(new Runnable() {
             @Override
             public void run() {
