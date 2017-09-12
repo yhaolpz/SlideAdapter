@@ -20,7 +20,17 @@ public class SAdapter {
         List<SlideItem> slideItems;
         IItemBind itemBind;
         IItemType itemType;
+        BottomListener bottomListener;
+        //TODO header、footer 也要能定义高度，不能直接用 Integer
+        List<Integer> headerLayoutIds;
+        List<Integer> footerLayoutIds;
+        ElasticHead elasticHead;
+        
 
+        Builder load(List data) {
+            this.data = data;
+            return this;
+        }
 
         public Builder item(@NonNull int itemLayoutId) {
             this.item(itemLayoutId, 0, 0, 0, 0);
@@ -35,8 +45,19 @@ public class SAdapter {
             return this;
         }
 
-        Builder load(List data) {
-            this.data = data;
+        public Builder header(@NonNull int layoutId) {
+            if (headerLayoutIds == null) {
+                headerLayoutIds = new ArrayList<>();
+            }
+            headerLayoutIds.add(layoutId);
+            return this;
+        }
+
+        public Builder footer(@NonNull int layoutId) {
+            if (footerLayoutIds == null) {
+                footerLayoutIds = new ArrayList<>();
+            }
+            footerLayoutIds.add(layoutId);
             return this;
         }
 
@@ -47,6 +68,11 @@ public class SAdapter {
 
         public Builder type(@NonNull IItemType itemType) {
             this.itemType = itemType;
+            return this;
+        }
+
+        public Builder listen(@NonNull BottomListener bottomListener) {
+            this.bottomListener = bottomListener;
             return this;
         }
 

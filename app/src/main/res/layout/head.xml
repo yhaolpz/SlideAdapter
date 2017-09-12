@@ -2,16 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#f55350"
               android:orientation="vertical"
               android:gravity="center"
     >
 
-    <ImageView
+    <TextView
         android:id="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="头部"
+        android:textColor="#000"
+        android:gravity="center"
         />
 
 </LinearLayout>

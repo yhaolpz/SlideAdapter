@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wyh.slide.ItemType;
+import com.wyh.slide.BottomListener;
 import com.xmwj.slidingmenu.R;
 import com.wyh.slide.ItemBind;
 import com.wyh.slide.SAdapter;
@@ -73,14 +74,13 @@ public class HomeActivity extends AppCompatActivity {
 
 
         SAdapter.load(data)
-                .item(R.layout.item, 0, 0, R.layout.right_menu, 0.2f)
+                .item(R.layout.item, 0, 0, R.layout.menu, 0.2f)
                 .item(R.layout.item2)
-                .item(R.layout.item)
                 .type(new ItemType<String>() {
 
                     @Override
                     public int viewType(String data, int position) {
-                        return position % 3 + 1;
+                        return position % 2 + 1;
                     }
                 })
                 .bind(new ItemBind<String>() {
@@ -107,6 +107,12 @@ public class HomeActivity extends AppCompatActivity {
                                         itemView.closeMenu();
                                     }
                                 });
+                    }
+                })
+                .listen(new BottomListener() {
+                    @Override
+                    public void onBottom() {
+                        ddd("bottom");
                     }
                 })
                 .into(mRecyclerView);

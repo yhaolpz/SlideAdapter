@@ -1,6 +1,7 @@
 package com.wyh.slide;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,7 +23,6 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     private List<SAdapter.SlideItem> mSlideItems;
     private IItemBind mIItemBind;
     private IItemType mIItemType;
-    private RecyclerView mRecyclerView;
     private int mItemViewWidth;
 
     //侧滑相关
@@ -94,14 +94,14 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     }
 
 
-    SlideAdapter(SAdapter.Builder build, RecyclerView recyclerView) {
+    SlideAdapter(final SAdapter.Builder build, final RecyclerView recyclerView) {
         this.mSlideItems = build.slideItems;
         this.mIItemBind = build.itemBind;
         this.mIItemType = build.itemType;
         this.mData = build.data;
-        this.mRecyclerView = recyclerView;
-        this.mRecyclerView.setAdapter(this);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setAdapter(this);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -109,12 +109,25 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
             }
         });
 
+        if (build.bottomListener != null) {
+            recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        build.bottomListener.onBottom();
+                    }
+                    return false;
+                }
+            });
+        }
+
+
         //TODO 如果recycleView 相对于屏幕有边距，则对recycleView设置margin或padding ，
         //若父布局是 viewPager 可能会报错
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mRecyclerView.getLayoutParams();
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) recyclerView.getLayoutParams();
         int recyclerViewMargin = layoutParams.leftMargin + layoutParams.rightMargin;
-        int recyclerViewPadding = mRecyclerView.getPaddingLeft() + mRecyclerView.getPaddingRight();
-        mItemViewWidth = ScreenSize.w(mRecyclerView.getContext()) - recyclerViewMargin - recyclerViewPadding;
+        int recyclerViewPadding = recyclerView.getPaddingLeft() + recyclerView.getPaddingRight();
+        mItemViewWidth = ScreenSize.w(recyclerView.getContext()) - recyclerViewMargin - recyclerViewPadding;
 
 
     }
