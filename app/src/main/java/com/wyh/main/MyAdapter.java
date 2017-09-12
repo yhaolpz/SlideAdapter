@@ -1,4 +1,4 @@
-package com.yhao.main;
+package com.wyh.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,8 @@ import com.xmwj.slidingmenu.R;
 
 import java.util.List;
 
-import static com.yhao.main.HomeActivity.ddd;
-import static com.yhao.main.HomeActivity.eee;
+import static com.wyh.main.HomeActivity.ddd;
+import static com.wyh.main.HomeActivity.eee;
 
 
 /**

@@ -1,11 +1,11 @@
-package com.yhao.slide;
+package com.wyh.slide;
 
 /**
  * created by yhao on 2017/9/8.
  */
 
 
-interface IItemType {
+ interface IItemType {
 
     int type(Object data, int position);
 }

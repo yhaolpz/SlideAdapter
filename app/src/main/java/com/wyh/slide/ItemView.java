@@ -1,4 +1,4 @@
-package com.yhao.slide;
+package com.wyh.slide;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,18 +6,18 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.xmwj.slidingmenu.R;
-
-import static com.yhao.main.HomeActivity.ddd;
 
 /**
  * created by yhao on 2017/9/8.
  */
 
 
-public class SlideHolder extends RecyclerView.ViewHolder {
+public class ItemView extends RecyclerView.ViewHolder {
 
     private SparseArray<View> mViews;
     private View mItemView;
@@ -26,7 +26,7 @@ public class SlideHolder extends RecyclerView.ViewHolder {
     private View mRightView;
 
 
-    SlideHolder(View itemView, View content, View leftMenu, View rightMenu) {
+    ItemView(View itemView, View content, View leftMenu, View rightMenu) {
         super(itemView);
         mItemView = itemView;
         mContent = content;
@@ -35,9 +35,9 @@ public class SlideHolder extends RecyclerView.ViewHolder {
         mViews = new SparseArray<>();
     }
 
-    static SlideHolder create(Context context, ViewGroup parent, final SAdapter.SlideItem slideItem) {
+    static ItemView create(Context context, ViewGroup parent, final SAdapter.SlideItem slideItem) {
         final View itemView = LayoutInflater.from(context).inflate(R.layout.yhaolpz_slide_layout, parent, false);
-        LinearLayout linearLayout = (LinearLayout) itemView.findViewById(R.id.yhaolpz_linearLayout);
+        LinearLayout linearLayout = itemView.findViewById(R.id.yhaolpz_linearLayout);
         final View content;
         View leftMenu = null;
         View rightMenu = null;
@@ -51,7 +51,7 @@ public class SlideHolder extends RecyclerView.ViewHolder {
             rightMenu = LayoutInflater.from(context).inflate(slideItem.rightMenuLayoutId, linearLayout, false);
             linearLayout.addView(rightMenu);
         }
-        return new SlideHolder(itemView, content, leftMenu, rightMenu);
+        return new ItemView(itemView, content, leftMenu, rightMenu);
     }
 
     public <T extends View> T getView(int viewId) {
@@ -73,6 +73,53 @@ public class SlideHolder extends RecyclerView.ViewHolder {
 
     View getRightMenu() {
         return mRightView;
+    }
+
+
+    public ItemView setText(int viewId, String text) {
+        TextView textView = getView(viewId);
+        textView.setText(text);
+        return this;
+    }
+
+    public ItemView setImageResource(int viewId, int resId) {
+        ImageView view = getView(viewId);
+        if (view != null) {
+            view.setImageResource(resId);
+        }
+        return this;
+    }
+
+    public ItemView setOnClickListener(int viewId, View.OnClickListener listener) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnClickListener(listener);
+        }
+        return this;
+    }
+
+    public ItemView setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnLongClickListener(listener);
+        }
+        return this;
+    }
+
+    public ItemView setOnClickListener(final View.OnClickListener listener) {
+        ((SlideLayout) getView(R.id.yhaolpz_slideLayout)).setCustomOnClickListener(
+                new SlideLayout.CustomOnClickListener() {
+            @Override
+            public void onClick() {
+                listener.onClick(mItemView);
+            }
+        });
+        return this;
+    }
+
+    public ItemView closeMenu() {
+        ((SlideLayout) getView(R.id.yhaolpz_slideLayout)).getAdapter().closeOpenItem();
+        return this;
     }
 
 }

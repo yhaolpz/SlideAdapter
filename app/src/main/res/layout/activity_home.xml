@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yhao.main.HomeActivity"
-    android:padding="10dp"
-
+    tools:context="com.wyh.main.HomeActivity"
     >
 
 
@@ -15,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#818181"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 
 

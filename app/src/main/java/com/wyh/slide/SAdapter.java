@@ -1,4 +1,4 @@
-package com.yhao.slide;
+package com.wyh.slide;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +35,7 @@ public class SAdapter {
             return this;
         }
 
-        public Builder data(List data) {
+        Builder load(List data) {
             this.data = data;
             return this;
         }
@@ -50,23 +50,15 @@ public class SAdapter {
             return this;
         }
 
-        public SlideAdapter into(@NonNull RecyclerView recyclerView) {
+        public RecyclerView.Adapter into(@NonNull RecyclerView recyclerView) {
             SlideAdapter adapter = new SlideAdapter(mBuilder, recyclerView);
             mBuilder = null;
             return adapter;
         }
     }
 
-    public static Builder data(List data) {
-        return getBuilder().data(data);
-    }
-
-    public static Builder item(@NonNull int itemLayoutId) {
-        return getBuilder().item(itemLayoutId, 0, 0, 0, 0);
-    }
-
-    public static Builder item(@NonNull int itemLayoutId, @NonNull int leftMenuLayoutId, @NonNull float leftMenuRatio, @NonNull int rightMenuLayoutId, @NonNull float rightMenuRatio) {
-        return getBuilder().item(itemLayoutId, leftMenuLayoutId, leftMenuRatio, rightMenuLayoutId, rightMenuRatio);
+    public static Builder load(List data) {
+        return getBuilder().load(data);
     }
 
 

@@ -1,4 +1,4 @@
-package com.yhao.slide;
+package com.wyh.slide;
 
 /**
  * created by yhao on 2017/8/11.
@@ -60,7 +60,7 @@ public class SlideLayout extends HorizontalScrollView {
     }
 
 
-    private SlideAdapter getAdapter() {
+    public SlideAdapter getAdapter() {
         View view = this;
         while (true) {
             view = (View) view.getParent();
@@ -75,7 +75,7 @@ public class SlideLayout extends HorizontalScrollView {
         getAdapter().holdOpenItem(this);
     }
 
-    private void closeOpenMenu() {
+    public void closeOpenMenu() {
         if (!isOpen()) {
             getAdapter().closeOpenItem();
         }

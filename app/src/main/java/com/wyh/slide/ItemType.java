@@ -1,4 +1,4 @@
-package com.yhao.slide;
+package com.wyh.slide;
 
 /**
  * created by yhao on 2017/9/9.
