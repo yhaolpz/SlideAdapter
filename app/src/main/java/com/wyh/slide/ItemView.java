@@ -1,6 +1,7 @@
 package com.wyh.slide;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -35,7 +36,11 @@ public class ItemView extends RecyclerView.ViewHolder {
         mViews = new SparseArray<>();
     }
 
-    static ItemView create(Context context, ViewGroup parent, final SAdapter.SlideItem slideItem) {
+    static ItemView create(@NonNull Context context, @NonNull ViewGroup parent, @NonNull NormalItem normalItem) {
+        return create(context, parent, new SlideItem(normalItem.layoutId, 0, 0, 0, 0));
+    }
+
+    static ItemView create(@NonNull Context context, @NonNull ViewGroup parent, @NonNull final SlideItem slideItem) {
         final View itemView = LayoutInflater.from(context).inflate(R.layout.yhaolpz_slide_layout, parent, false);
         LinearLayout linearLayout = itemView.findViewById(R.id.yhaolpz_linearLayout);
         final View content;
@@ -109,11 +114,11 @@ public class ItemView extends RecyclerView.ViewHolder {
     public ItemView setOnClickListener(final View.OnClickListener listener) {
         ((SlideLayout) getView(R.id.yhaolpz_slideLayout)).setCustomOnClickListener(
                 new SlideLayout.CustomOnClickListener() {
-            @Override
-            public void onClick() {
-                listener.onClick(mItemView);
-            }
-        });
+                    @Override
+                    public void onClick() {
+                        listener.onClick(mItemView);
+                    }
+                });
         return this;
     }
 

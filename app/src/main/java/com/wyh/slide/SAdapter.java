@@ -21,11 +21,10 @@ public class SAdapter {
         IItemBind itemBind;
         IItemType itemType;
         BottomListener bottomListener;
-        //TODO header、footer 也要能定义高度，不能直接用 Integer
-        List<Integer> headerLayoutIds;
-        List<Integer> footerLayoutIds;
+        List<NormalItem> headers;
+        List<NormalItem> footers;
         ElasticHead elasticHead;
-        
+
 
         Builder load(List data) {
             this.data = data;
@@ -45,19 +44,40 @@ public class SAdapter {
             return this;
         }
 
+
+        public Builder refreshHeader(@NonNull int layoutId) {
+            this.refreshHeader(layoutId, 0);
+            return this;
+        }
+
+        public Builder refreshHeader(@NonNull int layoutId,@NonNull float heightRatio) {
+            return this;
+        }
+
+
         public Builder header(@NonNull int layoutId) {
-            if (headerLayoutIds == null) {
-                headerLayoutIds = new ArrayList<>();
+            this.header(layoutId, 0);
+            return this;
+        }
+
+        public Builder header(@NonNull int layoutId, @NonNull float heightRatio) {
+            if (headers == null) {
+                headers = new ArrayList<>();
             }
-            headerLayoutIds.add(layoutId);
+            headers.add(new NormalItem(layoutId, heightRatio));
             return this;
         }
 
         public Builder footer(@NonNull int layoutId) {
-            if (footerLayoutIds == null) {
-                footerLayoutIds = new ArrayList<>();
+            this.footer(layoutId, 0);
+            return this;
+        }
+
+        public Builder footer(@NonNull int layoutId, @NonNull float heightRatio) {
+            if (footers == null) {
+                footers = new ArrayList<>();
             }
-            footerLayoutIds.add(layoutId);
+            footers.add(new NormalItem(layoutId, heightRatio));
             return this;
         }
 
@@ -93,22 +113,6 @@ public class SAdapter {
             mBuilder = new Builder();
         }
         return mBuilder;
-    }
-
-    static class SlideItem {
-        int itemLayoutId;
-        int leftMenuLayoutId;
-        float leftMenuRatio;
-        int rightMenuLayoutId;
-        float rightMenuRatio;
-
-        SlideItem(int itemLayoutId, int leftMenuLayoutId, float leftMenuRatio, int rightMenuLayoutId, float rightMenuRatio) {
-            this.itemLayoutId = itemLayoutId;
-            this.leftMenuLayoutId = leftMenuLayoutId;
-            this.leftMenuRatio = leftMenuRatio;
-            this.rightMenuLayoutId = rightMenuLayoutId;
-            this.rightMenuRatio = rightMenuRatio;
-        }
     }
 
 }

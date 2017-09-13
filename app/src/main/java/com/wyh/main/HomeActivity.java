@@ -56,26 +56,50 @@ public class HomeActivity extends AppCompatActivity {
             data.add("我是第" + i + "个item");
         }
 
+
+
+
+
+        //  .elasticHead (有弹性的)    按顺序从上到下添加
+        //  .onRefresh  监听刷新事件
+
+    //TODO
+
         ItemBind<String> itemBind = new ItemBind<String>() {
             @Override
-            public void onBind(ItemView holder, String s, int position) {
-                TextView textView = holder.getView(R.id.textView);
-                textView.setText(s);
+            public void onBind(final ItemView itemView, String data, int position) {
+                itemView.setText(R.id.textView, data)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(HomeActivity.this, "click", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setOnClickListener(R.id.textView, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(HomeActivity.this, "textView click", Toast.LENGTH_SHORT).show();
+
+                            }
+                        })
+                        .setOnClickListener(R.id.icon, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(HomeActivity.this, "menu click", Toast.LENGTH_SHORT).show();
+                                itemView.closeMenu();
+                            }
+                        });
             }
         };
 
 
 
-        //  .head 固定高度
-        //  .elasticHead (有弹性的)    按顺序从上到下添加
-        //  .onRefresh  监听刷新事件
-        //  .foot
-        //  .loadMore 监听加载更多事件
-
-
         SAdapter.load(data)
                 .item(R.layout.item, 0, 0, R.layout.menu, 0.2f)
                 .item(R.layout.item2)
+                .refreshHeader(R.layout.head)
+                .header(R.layout.head,0.2f)
+                .footer(R.layout.head,0.3f)
                 .type(new ItemType<String>() {
 
                     @Override
@@ -83,32 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                         return position % 2 + 1;
                     }
                 })
-                .bind(new ItemBind<String>() {
-                    @Override
-                    public void onBind(final ItemView itemView, String data, int position) {
-                        itemView.setText(R.id.textView, data)
-                                .setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Toast.makeText(HomeActivity.this, "click", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .setOnClickListener(R.id.textView, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Toast.makeText(HomeActivity.this, "textView click", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                })
-                                .setOnClickListener(R.id.icon, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Toast.makeText(HomeActivity.this, "menu click", Toast.LENGTH_SHORT).show();
-                                        itemView.closeMenu();
-                                    }
-                                });
-                    }
-                })
+                .bind(itemBind)
                 .listen(new BottomListener() {
                     @Override
                     public void onBottom() {
