@@ -5,5 +5,5 @@ package com.wyh.slide;
  */
 
 public interface BottomListener {
-    void onBottom();
+    void onBottom(ItemView footer,SlideAdapter slideAdapter);
 }

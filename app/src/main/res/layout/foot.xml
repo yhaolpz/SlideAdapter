@@ -9,10 +9,10 @@
 
     <TextView
         android:layout_gravity="center"
-        android:id="@+id/headText"
+        android:id="@+id/footerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="头部"
+        android:text="正在加载..."
         android:textColor="#000"
         android:gravity="center"
         />
