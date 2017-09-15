@@ -2,8 +2,10 @@ package com.wyh.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -44,12 +46,11 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new MyItemDecoration());
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        //TODO item 宽度为屏幕宽度减去 RecyclerView 的 margin和padding ，
-        //TODO 所以只支持 LinearLayoutManager, 若设置RecyclerView边距只能设置RecyclerView的margin和padding
 
 
         final List<String> data = new ArrayList<>();
@@ -60,11 +61,6 @@ public class HomeActivity extends AppCompatActivity {
         final List<String> data2 = new ArrayList<>();
         data2.add("我是一个新item");
 
-
-        //  .elasticHead (有弹性的)    按顺序从上到下添加
-        //  .onRefresh  监听刷新事件
-
-        //TODO
 
         ItemBind<String> itemBind = new ItemBind<String>() {
             @Override
@@ -93,11 +89,15 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
+        //todo 兼容 grid
+        //todo bug：菜单没有及时关闭
+
 
         SlideAdapter.load(data)
-                .item(R.layout.item, 0, 0, R.layout.menu, 0.2f)
+                .item(R.layout.item, 0, 0, R.layout.menu, 0.3f)
                 .item(R.layout.item2)
-                .refreshHeader(R.layout.head,0.1f)
+                .divider(1, R.color.colorGray)
+                .header(R.layout.head, 0.1f)
                 .header(R.layout.head, 0.1f)
                 .footer(R.layout.foot, 0.1f)
                 .type(new ItemType<String>() {
@@ -111,6 +111,9 @@ public class HomeActivity extends AppCompatActivity {
                 .bind(new HeaderBind() {
                     @Override
                     public void onBind(ItemView header, int order) {
+                        if (order == 1) {
+                            header.setText(R.id.headText, "第一个 头部");
+                        }
                         header.setOnClickListener(R.id.headText, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

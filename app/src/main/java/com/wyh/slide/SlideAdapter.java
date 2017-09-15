@@ -1,8 +1,10 @@
 package com.wyh.slide;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,16 +35,17 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     private HeaderBind mHeaderBind;
     private FooterBind mFooterBind;
     private IItemType mIItemType;
+    private int mHeadFootViewWidth;
     private int mItemViewWidth;
-    private NormalItem mRefreshHeader;
     private List<NormalItem> mHeaders;
     private List<NormalItem> mFooters;
     private ItemView mBottomFooter;
-    private static final int TYPE_REFRESH_HEADER = 0;
     private static final int TYPE_HEADER_ORIGIN = 101;
     private static final int TYPE_FOOTER_ORIGIN = 201;
     private boolean mLoading;
     private BottomListener mBottomListener;
+    private int mDividerHeight;
+    private int mDividerColor;
     private RecyclerView mRecycleView;
 
 
@@ -71,9 +74,6 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
 
     @Override
     public ItemView onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_REFRESH_HEADER) {
-            return ItemView.create(parent.getContext(), parent, mRefreshHeader);
-        }
         if (isHeader(viewType)) {
             return ItemView.create(parent.getContext(), parent, mHeaders.get(viewType - TYPE_HEADER_ORIGIN));
         }
@@ -83,65 +83,44 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         return ItemView.create(parent.getContext(), parent, mSlideItems.get(viewType - 1));
     }
 
-    @Override
-    public void onViewAttachedToWindow(ItemView holder) {
-        super.onViewAttachedToWindow(holder);
-        ddd("onViewAttachedToWindow");
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        ddd("onAttachedToRecyclerView");
-        mRecycleView.getLayoutManager().scrollVerticallyBy(100, null, null);
-
-        //todo 怎么集成刷新头部 ？ md风格的吗？
-    }
 
     @Override
     public void onBindViewHolder(final ItemView holder, int position) {
-        ddd("onBindViewHolder");
         View contentView = holder.getContentView();
         LinearLayout.LayoutParams contentParams = (LinearLayout.LayoutParams) contentView.getLayoutParams();
-        contentParams.width = mItemViewWidth;
-        if (getItemViewType(position) == TYPE_REFRESH_HEADER) {
-            if (mRefreshHeader.heightRatio > 0) {
+        if (isHeader(getItemViewType(position))) {
+            if (mHeaders.get(position).heightRatio > 0) {
                 contentParams.height = (int) (ScreenSize.h(contentView.getContext()) *
                         mHeaders.get(position).heightRatio);
-                contentView.setLayoutParams(contentParams);
-            }
-            return;
-        }
-        if (isHeader(getItemViewType(position))) {
-            if (mHeaders.get(position - getRefreshHeaderNum()).heightRatio > 0) {
-                contentParams.height = (int) (ScreenSize.h(contentView.getContext()) *
-                        mHeaders.get(position - getRefreshHeaderNum()).heightRatio);
+                contentParams.width = mHeadFootViewWidth;
                 contentView.setLayoutParams(contentParams);
             }
             if (mHeaderBind != null) {
-                mHeaderBind.onBind(holder, position + 1 - getRefreshHeaderNum());
+                mHeaderBind.onBind(holder, position + 1);
             }
             return;
         }
         if (isFooter(getItemViewType(position))) {
-            if (mFooters.get(position - getRefreshHeaderNum() - getHeaderNum() - mData.size()).heightRatio > 0) {
+            if (mFooters.get(position - getHeaderNum() - mData.size()).heightRatio > 0) {
                 contentParams.height = (int) (ScreenSize.h(contentView.getContext()) *
-                        mFooters.get(position - getRefreshHeaderNum() - getHeaderNum() - mData.size()).heightRatio);
+                        mFooters.get(position - getHeaderNum() - mData.size()).heightRatio);
+                contentParams.width = mHeadFootViewWidth;
                 contentView.setLayoutParams(contentParams);
             }
             if (mFooterBind != null) {
-                mFooterBind.onBind(holder, position + 1 - getRefreshHeaderNum());
+                mFooterBind.onBind(holder, position + 1);
             }
-            if (position == getHeaderNum() + getRefreshHeaderNum() + mData.size() + getFooterNum() - 1) {
+            if (position == getHeaderNum() + mData.size() + getFooterNum() - 1) {
                 mBottomFooter = holder;
             }
             return;
         }
+        contentParams.width = mItemViewWidth;
         contentView.setLayoutParams(contentParams);
         initLeftRightMenu(holder, mItemViewWidth, position);
         if (mIItemBind != null) {
-            mIItemBind.bind(holder, mData.get(position - getHeaderNum() - getRefreshHeaderNum()),
-                    position - getHeaderNum() - getRefreshHeaderNum());
+            mIItemBind.bind(holder, mData.get(position - getHeaderNum()),
+                    position - getHeaderNum());
         }
     }
 
@@ -180,33 +159,36 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         return mFooters == null ? 0 : mFooters.size();
     }
 
-    private int getRefreshHeaderNum() {
-        return mRefreshHeader == null ? 0 : 1;
-    }
-
 
     @Override
     public int getItemViewType(int position) {
 
-        if (mRefreshHeader != null && position == 0) {
-            return TYPE_REFRESH_HEADER;
+        if (getHeaderNum() > 0 && position < getHeaderNum()) {
+            return TYPE_HEADER_ORIGIN + position;
         }
-        if (getHeaderNum() > 0 && position < getHeaderNum() + getRefreshHeaderNum()) {
-            return TYPE_HEADER_ORIGIN + position - getRefreshHeaderNum();
-        }
-        if (getFooterNum() > 0 && position >= getHeaderNum() + getRefreshHeaderNum() + mData.size()) {
-            return TYPE_FOOTER_ORIGIN + position - getRefreshHeaderNum() - getHeaderNum() - mData.size();
+        if (getFooterNum() > 0 && position >= getHeaderNum() + mData.size()) {
+            return TYPE_FOOTER_ORIGIN + position - getHeaderNum() - mData.size();
         }
         return mIItemType == null || mSlideItems.size() == 1 ? 1 : mIItemType.type(
-                mData.get(position - getHeaderNum() - getRefreshHeaderNum()),
-                position - getHeaderNum() - getRefreshHeaderNum());
+                mData.get(position - getHeaderNum()),
+                position - getHeaderNum());
     }
 
     @Override
     public int getItemCount() {
-        return mData.size() + getRefreshHeaderNum() + getHeaderNum() + getFooterNum();
+        return mData.size() + getHeaderNum() + getFooterNum();
     }
 
+    @Override
+    public void onViewAttachedToWindow(ItemView holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+            int position = holder.getLayoutPosition();
+            p.setFullSpan(isHeader(getItemViewType(position)) || isFooter(getItemViewType(position)));
+        }
+    }
 
     private void onBottom() {
         if (mBottomListener != null) {
@@ -218,7 +200,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     }
 
     public void loadMore(List data) {
-        int pos = mData.size() + getHeaderNum() + getRefreshHeaderNum();
+        int pos = mData.size() + getHeaderNum();
         mData.addAll(data);
         this.notifyItemRangeInserted(pos, data.size());
         mLoading = false;
@@ -235,7 +217,8 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         this.mHeaderBind = build.headerBind;
         this.mFooterBind = build.footerBind;
         this.mBottomListener = build.bottomListener;
-        this.mRefreshHeader = build.refreshHeader;
+        this.mDividerHeight = build.dividerHeight;
+        this.mDividerColor = build.dividerColor;
         this.mRecycleView = recyclerView;
         init();
     }
@@ -254,12 +237,31 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 }
             }
         });
-        //TODO 如果recycleView 相对于屏幕有边距，则对recycleView设置margin或padding ，
-        //若父布局是 viewPager 可能会报错
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mRecycleView.getLayoutParams();
-        int recyclerViewMargin = layoutParams.leftMargin + layoutParams.rightMargin;
+        if (mDividerHeight > 0) {
+            mRecycleView.addItemDecoration(new SlideItemDecoration(mRecycleView.getContext(), mDividerHeight, mDividerColor));
+        }
+        ViewGroup.LayoutParams layoutParams = mRecycleView.getLayoutParams();
         int recyclerViewPadding = mRecycleView.getPaddingLeft() + mRecycleView.getPaddingRight();
-        mItemViewWidth = ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding;
+        int recyclerViewMargin = 0;
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            recyclerViewMargin = ((ViewGroup.MarginLayoutParams) layoutParams).leftMargin + ((ViewGroup.MarginLayoutParams) layoutParams).rightMargin;
+        }
+        final RecyclerView.LayoutManager layoutManager = mRecycleView.getLayoutManager();
+        mHeadFootViewWidth = ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding;
+        if (layoutManager instanceof LinearLayoutManager) {
+            mItemViewWidth = mHeadFootViewWidth;
+        }
+        if (layoutManager instanceof GridLayoutManager) {
+            ((GridLayoutManager) layoutManager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return isHeader(getItemViewType(position)) || isFooter(getItemViewType(position)) ?
+                            ((GridLayoutManager) layoutManager).getSpanCount() : 1;
+                }
+            });
+            mItemViewWidth = (ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding) /
+                    ((GridLayoutManager) layoutManager).getSpanCount();
+        }
     }
 
 
@@ -273,9 +275,10 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         BottomListener bottomListener;
         List<NormalItem> headers;
         List<NormalItem> footers;
-        NormalItem refreshHeader;
         HeaderBind headerBind;
         FooterBind footerBind;
+        int dividerHeight;
+        int dividerColor;
 
 
         Builder load(List data) {
@@ -293,12 +296,6 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 slideItems = new ArrayList<>();
             }
             slideItems.add(new SlideItem(itemLayoutId, leftMenuLayoutId, leftMenuRatio, rightMenuLayoutId, rightMenuRatio));
-            return this;
-        }
-
-
-        public Builder refreshHeader(@NonNull int layoutId, @NonNull float heightRatio) {
-            refreshHeader = new NormalItem(layoutId, heightRatio);
             return this;
         }
 
@@ -326,6 +323,12 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 footers = new ArrayList<>();
             }
             footers.add(new NormalItem(layoutId, heightRatio));
+            return this;
+        }
+
+        public Builder divider(int dividerHeight, int dividerColor) {
+            this.dividerHeight = dividerHeight;
+            this.dividerColor = dividerColor;
             return this;
         }
 
