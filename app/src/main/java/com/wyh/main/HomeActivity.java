@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
         SlideAdapter.load(data)
                 .item(R.layout.item, 0, 0, R.layout.menu, 0.3f)
                 .item(R.layout.item2)
-                .divider(1, R.color.colorGray)
+                .divider(1, R.color.colorAccent)
                 .header(R.layout.head, 0.1f)
                 .header(R.layout.head, 0.1f)
                 .footer(R.layout.foot, 0.1f)

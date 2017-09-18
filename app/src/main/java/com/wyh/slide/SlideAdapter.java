@@ -117,26 +117,26 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         }
         contentParams.width = mItemViewWidth;
         contentView.setLayoutParams(contentParams);
-        initLeftRightMenu(holder, mItemViewWidth, position);
+        initLeftRightMenu(holder, position);
         if (mIItemBind != null) {
             mIItemBind.bind(holder, mData.get(position - getHeaderNum()),
                     position - getHeaderNum());
         }
     }
 
-    private void initLeftRightMenu(ItemView holder, int itemWidth, int position) {
+    private void initLeftRightMenu(ItemView holder, int position) {
         final SlideItem item = mSlideItems.get(getItemViewType(position) - 1);
         View rightMenu = holder.getRightMenu();
         if (rightMenu != null) {
             LinearLayout.LayoutParams rightMenuParams = (LinearLayout.LayoutParams) rightMenu.getLayoutParams();
-            rightMenuParams.width = (int) (itemWidth * item.rightMenuRatio);
+            rightMenuParams.width = (int) (ScreenSize.w(holder.itemView.getContext()) * item.rightMenuRatio);
             rightMenu.setLayoutParams(rightMenuParams);
             ((SlideLayout) holder.getView(R.id.yhaolpz_slideLayout)).setRightMenuWidth(rightMenuParams.width);
         }
         View leftMenu = holder.getLeftMenu();
         if (leftMenu != null) {
             LinearLayout.LayoutParams leftMenuParams = (LinearLayout.LayoutParams) leftMenu.getLayoutParams();
-            leftMenuParams.width = (int) (itemWidth * item.leftMenuRatio);
+            leftMenuParams.width = (int) (ScreenSize.w(holder.itemView.getContext()) * item.leftMenuRatio);
             leftMenu.setLayoutParams(leftMenuParams);
             holder.getView(R.id.yhaolpz_slideLayout).scrollTo(leftMenuParams.width, 0);
             ((SlideLayout) holder.getView(R.id.yhaolpz_slideLayout)).setLeftMenuWidth(leftMenuParams.width);
@@ -259,8 +259,10 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                             ((GridLayoutManager) layoutManager).getSpanCount() : 1;
                 }
             });
-            mItemViewWidth = (ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding) /
+            mItemViewWidth = (ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding
+                    - mDividerHeight * ((GridLayoutManager) layoutManager).getSpanCount() * 2) /
                     ((GridLayoutManager) layoutManager).getSpanCount();
+            mHeadFootViewWidth -= mDividerHeight * 2;
         }
     }
 
