@@ -1,6 +1,7 @@
 package com.wyh.slide;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -238,7 +239,8 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
             }
         });
         if (mDividerHeight > 0) {
-            mRecycleView.addItemDecoration(new SlideItemDecoration(mRecycleView.getContext(), mDividerHeight, mDividerColor));
+//            mRecycleView.addItemDecoration(new SlideItemDecoration(mRecycleView.getContext(), mDividerHeight, mDividerColor));
+            mRecycleView.addItemDecoration(new DividerItemDecoration(mRecycleView.getContext(),DividerItemDecoration.HORIZONTAL));
         }
         ViewGroup.LayoutParams layoutParams = mRecycleView.getLayoutParams();
         int recyclerViewPadding = mRecycleView.getPaddingLeft() + mRecycleView.getPaddingRight();
