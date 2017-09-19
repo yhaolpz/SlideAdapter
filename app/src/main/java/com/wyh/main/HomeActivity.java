@@ -47,7 +47,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
-//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -94,9 +93,9 @@ public class HomeActivity extends AppCompatActivity {
 
 
         SlideAdapter.load(data)
-                .item(R.layout.item, 0, 0, R.layout.menu, 0.3f)
+                .item(R.layout.item, 0, 0, R.layout.menu, 0.1f)
                 .item(R.layout.item2)
-                .divider(1, R.color.colorAccent)
+                .divider(1, R.color.colorPrimary)
                 .header(R.layout.head, 0.1f)
                 .header(R.layout.head, 0.1f)
                 .footer(R.layout.foot, 0.1f)

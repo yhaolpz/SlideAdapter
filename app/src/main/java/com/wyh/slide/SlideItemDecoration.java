@@ -58,7 +58,47 @@ class SlideItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         if (parent.getLayoutManager() instanceof GridLayoutManager) {
-//            drawGrideview(c, parent);
+            drawGrideview(c, parent);
+        }
+    }
+    private void drawGrideview(Canvas canvas, RecyclerView parent) {
+        GridLayoutManager linearLayoutManager = (GridLayoutManager) parent.getLayoutManager();
+        int childSize = parent.getChildCount();
+        int other = parent.getChildCount() / linearLayoutManager.getSpanCount();
+        if (other < 1) {
+            other = 1;
+        }
+        other = other * linearLayoutManager.getSpanCount();
+        if (parent.getChildCount() < linearLayoutManager.getSpanCount()) {
+            other = parent.getChildCount();
+        }
+        int top, bottom, left, right, spancount;
+        spancount = linearLayoutManager.getSpanCount() - 1;
+
+        for (int i = 0; i < childSize; i++) {
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
+            if (i < other) {
+                top = child.getBottom() + layoutParams.bottomMargin;
+                bottom = top + mDividerWidth;
+                left = parent.getPaddingLeft();
+                right =parent.getWidth() - parent.getPaddingRight();
+
+                if (mPaint != null) {
+                    canvas.drawRect(left, top, right, bottom, mPaint);
+                }
+            }
+            if (i != spancount) {
+                top = (layoutParams.topMargin + mDividerWidth) * (i / linearLayoutManager.getSpanCount() + 1);
+                bottom = (child.getMeasuredHeight() + mDividerWidth) * (i / linearLayoutManager.getSpanCount() + 1) + mDividerWidth;
+                left = child.getRight() + layoutParams.rightMargin;
+                right = left + mDividerWidth;
+                if (mPaint != null) {
+                    canvas.drawRect(left, top, right, bottom, mPaint);
+                }
+            } else {
+                spancount += linearLayoutManager.getSpanCount();
+            }
         }
     }
 
@@ -69,11 +109,9 @@ class SlideItemDecoration extends RecyclerView.ItemDecoration {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                    .getLayoutParams();
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             // divider的top 应该是 item的bottom 加上 marginBottom 再加上 Y方向上的位移
-            final int top = child.getBottom() + params.bottomMargin +
-                    Math.round(child.getTranslationY());
+            final int top = child.getBottom() + params.bottomMargin + Math.round(child.getTranslationY());
             // divider的bottom就是top加上divider的高度了
             final int bottom = top + mDividerWidth;
             c.drawRect(left, top, right, bottom, mPaint);
@@ -87,14 +125,14 @@ class SlideItemDecoration extends RecyclerView.ItemDecoration {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                    .getLayoutParams();
-            final int left = child.getRight() + params.rightMargin +
-                    Math.round(child.getTranslationX());
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int left = child.getRight() + params.rightMargin + Math.round(child.getTranslationX());
             final int right = left + mDividerWidth;
             c.drawRect(left, top, right, bottom, mPaint);
         }
     }
+
+
 
 
 }

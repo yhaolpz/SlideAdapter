@@ -45,7 +45,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     private static final int TYPE_FOOTER_ORIGIN = 201;
     private boolean mLoading;
     private BottomListener mBottomListener;
-    private int mDividerHeight;
+    private int mDividerWidth;
     private int mDividerColor;
     private RecyclerView mRecycleView;
 
@@ -218,7 +218,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         this.mHeaderBind = build.headerBind;
         this.mFooterBind = build.footerBind;
         this.mBottomListener = build.bottomListener;
-        this.mDividerHeight = build.dividerHeight;
+        this.mDividerWidth = build.dividerWidth;
         this.mDividerColor = build.dividerColor;
         this.mRecycleView = recyclerView;
         init();
@@ -238,9 +238,8 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 }
             }
         });
-        if (mDividerHeight > 0) {
-//            mRecycleView.addItemDecoration(new SlideItemDecoration(mRecycleView.getContext(), mDividerHeight, mDividerColor));
-            mRecycleView.addItemDecoration(new DividerItemDecoration(mRecycleView.getContext(),DividerItemDecoration.HORIZONTAL));
+        if (mDividerWidth > 0) {
+            mRecycleView.addItemDecoration(new SlideItemDecoration(mRecycleView.getContext(), mDividerWidth, mDividerColor));
         }
         ViewGroup.LayoutParams layoutParams = mRecycleView.getLayoutParams();
         int recyclerViewPadding = mRecycleView.getPaddingLeft() + mRecycleView.getPaddingRight();
@@ -262,9 +261,9 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 }
             });
             mItemViewWidth = (ScreenSize.w(mRecycleView.getContext()) - recyclerViewMargin - recyclerViewPadding
-                    - mDividerHeight * ((GridLayoutManager) layoutManager).getSpanCount() * 2) /
+                    - mDividerWidth * ((GridLayoutManager) layoutManager).getSpanCount() * 2) /
                     ((GridLayoutManager) layoutManager).getSpanCount();
-            mHeadFootViewWidth -= mDividerHeight * 2;
+            mHeadFootViewWidth -= mDividerWidth * 2;
         }
     }
 
@@ -281,7 +280,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         List<NormalItem> footers;
         HeaderBind headerBind;
         FooterBind footerBind;
-        int dividerHeight;
+        int dividerWidth;
         int dividerColor;
 
 
@@ -330,8 +329,8 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
             return this;
         }
 
-        public Builder divider(int dividerHeight, int dividerColor) {
-            this.dividerHeight = dividerHeight;
+        public Builder divider(int dividerWidth, int dividerColor) {
+            this.dividerWidth = dividerWidth;
             this.dividerColor = dividerColor;
             return this;
         }
