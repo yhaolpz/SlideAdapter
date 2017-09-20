@@ -12,7 +12,7 @@
         android:id="@+id/footerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="正在加载..."
+        android:text="正在加载"
         android:textColor="#000"
         android:gravity="center"
         />

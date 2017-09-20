@@ -2,18 +2,13 @@ package com.wyh.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wyh.slide.FooterBind;
-import com.wyh.slide.HeaderBind;
 import com.wyh.slide.ItemType;
-import com.wyh.slide.BottomListener;
 import com.wyh.slide.SlideAdapter;
 import com.xmwj.slidingmenu.R;
 import com.wyh.slide.ItemBind;
@@ -46,101 +41,136 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
 
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        final List<String> data = new ArrayList<>();
+        final List<Bean> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            data.add("我是第" + i + "个item");
+            data.add(new Bean("我是第" + i + "个item"));
         }
 
-        final List<String> data2 = new ArrayList<>();
-        data2.add("我是一个新item");
-
-
-        ItemBind<String> itemBind = new ItemBind<String>() {
+        ItemBind itemBind = new ItemBind<Bean>() {
             @Override
-            public void onBind(final ItemView itemView, String data, int position) {
-                itemView.setText(R.id.textView, data)
+            public void onBind(ItemView itemView, Bean data, int position) {
+                itemView.setText(R.id.textView, data.getInfo())
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "click", Toast.LENGTH_SHORT).show();
+                                //点击item
                             }
                         })
                         .setOnClickListener(R.id.textView, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "textView click", Toast.LENGTH_SHORT).show();
-
-                            }
-                        })
-                        .setOnClickListener(R.id.like, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "点击喜欢菜单", Toast.LENGTH_SHORT).show();
-                                itemView.closeMenu();
+                                //点击textView
                             }
                         });
             }
         };
 
-
         SlideAdapter.load(data)
-                .item(R.layout.item,0,0, R.layout.menu, 0.35f)
-                .padding(1)
-                .footer(R.layout.foot, 0.1f)
+                .item(R.layout.item,0,0,R.layout.menu,0.35f)
+                .item(R.layout.item2)
+                .type(new ItemType<Bean>() {
+                    @Override
+                    public int getItemOrder(Bean data, int position) {
+                        return position % 2 == 0 ? 1 : 2;
+                    }
+                })
+                .padding(2)
                 .bind(itemBind)
-                .bind(new HeaderBind() {
-                    @Override
-                    public void onBind(ItemView header, int order) {
-                        header.setOnClickListener(R.id.headText, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "head click", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                })
-                .bind(new FooterBind() {
-                    @Override
-                    public void onBind(ItemView footer, int order) {
-                        footer.setOnClickListener(R.id.headText, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "foot click", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                })
-                .listen(new BottomListener() {
+                .into(recyclerView);
 
-                    @Override
-                    public void onBottom(final ItemView footer, final SlideAdapter slideAdapter) {
-                        footer.setText(R.id.footerText, "正在加载，请稍后...");
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        slideAdapter.loadMore(data2);
-                                        footer.setText(R.id.footerText, "正在加载");
-                                    }
-                                });
 
-                            }
-                        }).start();
-                    }
-                })
-                .into(mRecyclerView);
+        final List<Bean> data2 = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            data2.add(new Bean("我是一个新item"));
+        }
+
+
+//        ItemBind<String> itemBind = new ItemBind<String>() {
+//            @Override
+//            public void onBind(final ItemView itemView, String data, int position) {
+//                itemView.setText(R.id.textView, data)
+//                        .setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(HomeActivity.this, "click", Toast.LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .setOnClickListener(R.id.textView, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(HomeActivity.this, "textView click", Toast.LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .setOnClickListener(R.id.like, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(HomeActivity.this, "点击喜欢菜单", Toast.LENGTH_SHORT).show();
+//                                itemView.closeMenu();
+//                            }
+//                        });
+//            }
+//        };
+
+
+//        SlideAdapter.load(data)
+//                .item(R.layout.item,0,0, R.layout.menu, 0.35f)
+//                .padding(1)
+//                .footer(R.layout.foot, 0.1f)
+//                .bind(itemBind)
+//                .bind(new HeaderBind() {
+//                    @Override
+//                    public void onBind(ItemView header, int order) {
+//                        header.setOnClickListener(R.id.headText, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(HomeActivity.this, "head click", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                })
+//                .bind(new FooterBind() {
+//                    @Override
+//                    public void onBind(ItemView footer, int order) {
+//                        footer.setOnClickListener(R.id.footerText, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(HomeActivity.this, "foot click", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                })
+//                .listen(new BottomListener() {
+//
+//                    @Override
+//                    public void onBottom(final ItemView footer, final SlideAdapter slideAdapter) {
+//                        footer.setText(R.id.footerText, "正在加载，请稍后...");
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    Thread.sleep(1000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        slideAdapter.loadMore(data2);
+//                                        footer.setText(R.id.footerText, "正在加载");
+//                                    }
+//                                });
+//
+//                            }
+//                        }).start();
+//                    }
+//                })
+//                .into(mRecyclerView);
 
 
     }

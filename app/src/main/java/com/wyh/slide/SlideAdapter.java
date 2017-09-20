@@ -105,7 +105,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
                 contentView.setLayoutParams(contentParams);
             }
             if (mFooterBind != null) {
-                mFooterBind.onBind(holder, position + 1);
+                mFooterBind.onBind(holder, position - getHeaderNum() - mData.size() + 1);
             }
             if (position == getHeaderNum() + mData.size() + getFooterNum() - 1) {
                 mBottomFooter = holder;
@@ -188,7 +188,7 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     }
 
     private void onBottom() {
-        if (mBottomListener != null && mBottomFooter != null) {
+        if (mBottomListener != null) {
             if (!mLoading) {
                 mLoading = true;
                 mBottomListener.onBottom(mBottomFooter, SlideAdapter.this);
@@ -199,6 +199,9 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
     public void loadMore(List data) {
         int pos = mData.size() + getHeaderNum();
         mData.addAll(data);
+        if (getFooterNum() == 0) {
+            this.notifyItemChanged(pos - 1);
+        }
         this.notifyItemRangeInserted(pos, data.size());
         mLoading = false;
     }
