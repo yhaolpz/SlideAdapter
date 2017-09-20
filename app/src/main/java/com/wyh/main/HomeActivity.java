@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         final List<String> data = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
             data.add("我是第" + i + "个item");
         }
 
@@ -77,10 +77,10 @@ public class HomeActivity extends AppCompatActivity {
 
                             }
                         })
-                        .setOnClickListener(R.id.icon, new View.OnClickListener() {
+                        .setOnClickListener(R.id.like, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Toast.makeText(HomeActivity.this, "menu click", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomeActivity.this, "点击喜欢菜单", Toast.LENGTH_SHORT).show();
                                 itemView.closeMenu();
                             }
                         });
@@ -88,11 +88,9 @@ public class HomeActivity extends AppCompatActivity {
         };
 
 
-
         SlideAdapter.load(data)
-                .item(R.layout.item, 0,0, R.layout.menu, 0.2f)
+                .item(R.layout.item,0,0, R.layout.menu, 0.35f)
                 .padding(1)
-                .header(R.layout.head, 0.1f)
                 .footer(R.layout.foot, 0.1f)
                 .bind(itemBind)
                 .bind(new HeaderBind() {

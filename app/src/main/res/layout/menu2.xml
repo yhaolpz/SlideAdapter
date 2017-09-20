@@ -13,10 +13,10 @@
         >
 
         <ImageView
-            android:id="@+id/like"
+            android:id="@+id/star"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/like"/>
+            android:src="@drawable/star"/>
     </LinearLayout>
 
     <LinearLayout
@@ -28,10 +28,10 @@
         >
 
         <ImageView
-            android:id="@+id/delete"
+            android:id="@+id/top"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/delete"/>
+            android:src="@drawable/top"/>
     </LinearLayout>
 
 </LinearLayout>
