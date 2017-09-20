@@ -1,4 +1,4 @@
-package com.wyh.slide;
+package com.wyh.slideAdapter;
 
 /**
  * created by yhao on 2017/8/11.

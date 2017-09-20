@@ -46,10 +46,9 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
 
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
 
 
         final List<String> data = new ArrayList<>();
@@ -88,31 +87,17 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        //todo 兼容 grid
-        //todo bug：菜单没有及时关闭
 
 
         SlideAdapter.load(data)
-                .item(R.layout.item, 0, 0, R.layout.menu, 0.1f)
-                .item(R.layout.item2)
-                .divider(1, R.color.colorPrimary)
-                .header(R.layout.head, 0.1f)
+                .item(R.layout.item, 0,0, R.layout.menu, 0.2f)
+                .padding(1)
                 .header(R.layout.head, 0.1f)
                 .footer(R.layout.foot, 0.1f)
-                .type(new ItemType<String>() {
-
-                    @Override
-                    public int getItemOrder(String data, int position) {
-                        return position % 2 + 1;
-                    }
-                })
                 .bind(itemBind)
                 .bind(new HeaderBind() {
                     @Override
                     public void onBind(ItemView header, int order) {
-                        if (order == 1) {
-                            header.setText(R.id.headText, "第一个 头部");
-                        }
                         header.setOnClickListener(R.id.headText, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -136,7 +121,6 @@ public class HomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onBottom(final ItemView footer, final SlideAdapter slideAdapter) {
-                        ddd("bottom");
                         footer.setText(R.id.footerText, "正在加载，请稍后...");
                         new Thread(new Runnable() {
                             @Override

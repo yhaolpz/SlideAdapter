@@ -1,4 +1,4 @@
-package com.wyh.slide;
+package com.wyh.slideAdapter;
 
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
