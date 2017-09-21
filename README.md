@@ -412,7 +412,22 @@ onBottom 方法中的 footer 为最后一个底部，若未添加底部，则 fo
 
 这是我的第一个开源库，功力尚浅，如果你在使用过程中遇到了什么问题，随时可以向我反馈，我会第一时间回复并改正。如果你想在此库的基础上添加自己的功能，欢迎 fork、欢迎 star 。
 
+# License
+```text
+Copyright 2017 Wang YingHao
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 
 
