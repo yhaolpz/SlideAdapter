@@ -369,8 +369,8 @@ SlideAdapter.load(data)
 ```
 SlideAdapter.load(data)
             .item(R.layout.item)
-            .footer(R.layout.foot)            //添加第1个头部
-            .footer(R.layout.foot,0.1f)       //添加第2个头部
+            .footer(R.layout.foot)            //添加第1个底部
+            .footer(R.layout.foot,0.1f)       //添加第2个底部
             .bind(new FooterBind() {
                     @Override
                     public void onBind(ItemView footer, int order) {
