@@ -38,14 +38,14 @@
 
 第 1 步、在工程的 build.gradle 中添加：
 
-```java
+```
 	allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
-```java
+```
 第 2 步、在应用的  build.gradle 中添加：
 
 ```
