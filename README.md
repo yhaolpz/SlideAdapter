@@ -38,14 +38,14 @@
 
 第 1 步、在工程的 build.gradle 中添加：
 
-```
+```java
 	allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
-```
+```java
 第 2 步、在应用的  build.gradle 中添加：
 
 ```
@@ -59,7 +59,7 @@
 
 下面通过简单案例演示如何在程序中使用 SlideAdapter，假设  item.xml 为：
 
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -96,7 +96,7 @@ public class Bean {
 
 ```
 数据为：
-```
+```java
  final List<Bean> data = new ArrayList<>();
  for (int i = 0; i < 30; i++) {
      data.add(new Bean("我是第" + i + "个item"));
@@ -108,7 +108,7 @@ public class Bean {
 1.基本写法 ：
 ----------
 
-```
+```java
 SlideAdapter.load(data)           //加载数据
             .item(R.layout.item)  //指定布局
             .into(recyclerView);  //填充到recyclerView中
@@ -119,14 +119,14 @@ SlideAdapter.load(data)           //加载数据
 ----------
 
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .bind(itemBind)       //视图绑定
             .into(recyclerView);
 ```
 在 itemBind 中进行数据绑定及控件的事件监听，相当于 Adapter 中的 onBindViewHolder ，实现 ItemBind 时需传入数据类型：
-```
+```java
 ItemBind itemBind = new ItemBind<Bean>() {
      @Override
      public void onBind(ItemView itemView, Bean data, int position) {
@@ -151,7 +151,7 @@ ItemBind itemBind = new ItemBind<Bean>() {
 3.添加 item 间距：
 ----------------
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .padding(2)           //item间距
@@ -162,21 +162,21 @@ SlideAdapter.load(data)
 4.添加侧滑菜单：
 ----------------
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item，0，0，R.layout.menu，0.35f)  //添加右侧侧滑菜单，宽为屏幕宽度的 35%
             .padding(2)
             .bind(itemBind)
             .into(recyclerView);
 ```
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item，R.layout.menu，0.4f，0，0)  //添加左侧侧滑菜单，宽为屏幕宽度的 40%
             .padding(2)
             .bind(itemBind)
             .into(recyclerView);
 ```
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item，R.layout.menu，0.4f，R.layout.menu，0.35)  //添加左侧和右侧侧滑菜单
             .padding(2)
@@ -186,7 +186,7 @@ SlideAdapter.load(data)
 
 上面调用的 item 方法为 ：
 
-```
+```java
 item (int itemLayoutId,
       int leftMenuLayoutId, float leftMenuRatio,
       int rightMenuLayoutId, float rightMenuRatio)
@@ -200,7 +200,7 @@ item (int itemLayoutId,
 
 比如侧滑菜单布局 menu.xml 为下：
 
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -216,7 +216,7 @@ item (int itemLayoutId,
 ```
 对 rightMenu_Like 控件设置点击事件监听，就像对 item 中的普通控件设置一样：
 
-```
+```java
 ItemBind itemBind = new ItemBind<Bean>() {
      @Override
      public void onBind(ItemView itemView, Bean data, int position) {
@@ -235,7 +235,7 @@ ItemBind itemBind = new ItemBind<Bean>() {
 6.多种 item 布局：
 ----------------
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item,0,0,R.layout.menu,0.35)   // 添加次序为 1
             .item(R.layout.item)                          // 添加次序为 2
@@ -254,7 +254,7 @@ SlideAdapter.load(data)
 7.添加头部：
 ----------------
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .header(R.layout.head,0.1f) //添加一个头部，高为屏幕高度的 10%
@@ -262,7 +262,7 @@ SlideAdapter.load(data)
             .bind(itemBind)
             .into(recyclerView);
 ```
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .header(R.layout.head)        //添加第1个头部
@@ -277,7 +277,7 @@ SlideAdapter.load(data)
 
 假设头部布局 head.xml 为下：
 
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -299,7 +299,7 @@ SlideAdapter.load(data)
 </LinearLayout>
 ```
 对头部的数据绑定及事件监听在 HeaderBind 中实现：
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .header(R.layout.head,0.2f)    //添加第1个头部
@@ -320,7 +320,7 @@ SlideAdapter.load(data)
 
 9.添加底部：
 ----------------
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .footer(R.layout.foot,0.1f)    //添加一个底部，高为屏幕高度的 10%
@@ -328,7 +328,7 @@ SlideAdapter.load(data)
             .bind(itemBind)
             .into(recyclerView);
 ```
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .footer(R.layout.foot)        //添加第1个底部
@@ -343,7 +343,7 @@ SlideAdapter.load(data)
 
 假设底部布局 foot.xml 为下：
 
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -366,7 +366,7 @@ SlideAdapter.load(data)
 ```
 对头部的数据绑定及事件监听在 FooterBind 中实现：
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .footer(R.layout.foot)            //添加第1个底部
@@ -388,7 +388,7 @@ SlideAdapter.load(data)
 11.加载更多：
 ----------------
 
-```
+```java
 SlideAdapter.load(data)
             .item(R.layout.item)
             .footer(R.layout.foot,0.1f)
