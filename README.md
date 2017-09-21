@@ -83,7 +83,7 @@
 
 数据类为：
 
-```
+```java
 public class Bean {
 
     private String info;
