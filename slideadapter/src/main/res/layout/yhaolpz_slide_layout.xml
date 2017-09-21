@@ -4,7 +4,7 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <com.wyh.slide.SlideLayout
+    <com.wyh.slideAdapter.SlideLayout
         android:id="@+id/yhaolpz_slideLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -17,6 +17,6 @@
             >
 
         </LinearLayout>
-    </com.wyh.slide.SlideLayout>
+    </com.wyh.slideAdapter.SlideLayout>
 
 </LinearLayout>

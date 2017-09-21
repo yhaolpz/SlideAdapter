@@ -84,7 +84,9 @@ public class ItemView extends RecyclerView.ViewHolder {
 
     public ItemView setText(int viewId, String text) {
         TextView textView = getView(viewId);
-        textView.setText(text);
+        if (textView != null) {
+            textView.setText(text);
+        }
         return this;
     }
 

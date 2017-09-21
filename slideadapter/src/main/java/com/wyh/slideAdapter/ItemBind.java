@@ -14,5 +14,5 @@ public abstract class ItemBind<T> implements IItemBind {
     }
 
 
-    public abstract void onBind(ItemView itemView, T data, int postion);
+    public abstract void onBind(ItemView itemView, T data, int position);
 }
