@@ -114,7 +114,8 @@ SlideAdapter.load(data)           //加载数据
             .into(recyclerView);  //填充到recyclerView中
 ```
 
-2. 数据绑定及事件监听：
+
+2.数据绑定及事件监听：
 ----------
 
 
@@ -147,7 +148,7 @@ ItemBind itemBind = new ItemBind<Bean>() {
 ```
 
 
-3. 添加 item 间距：
+3.添加 item 间距：
 ----------------
 
 ```
@@ -158,7 +159,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-4. 添加侧滑菜单：
+4.添加侧滑菜单：
 ----------------
 
 ```
@@ -192,7 +193,7 @@ item (int itemLayoutId,
 ```
 不添加哪一侧，就把对应参数传入 0 即可。
 
-5. 侧滑菜单的数据绑定及事件监听：
+5.侧滑菜单的数据绑定及事件监听：
 ----------------
 
 菜单布局为 itemView 的一部分，所以对侧滑菜单的数据绑定及事件监听直接在 ItemBind 中进行即可。
@@ -231,7 +232,7 @@ ItemBind itemBind = new ItemBind<Bean>() {
 
 
 
-6. 多种 item 布局：
+6.多种 item 布局：
 ----------------
 
 ```
@@ -250,7 +251,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-7. 添加头部：
+7.添加头部：
 ----------------
 
 ```
@@ -271,7 +272,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-8. 头部的数据绑定及事件监听：
+8.头部的数据绑定及事件监听：
 ----------------
 
 假设头部布局 head.xml 为下：
@@ -317,7 +318,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-9. 添加底部：
+9.添加底部：
 ----------------
 ```
 SlideAdapter.load(data)
@@ -337,7 +338,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-10. 底部的数据绑定及事件监听：
+10.底部的数据绑定及事件监听：
 ----------------
 
 假设底部布局 foot.xml 为下：
@@ -384,7 +385,7 @@ SlideAdapter.load(data)
             .into(recyclerView);
 ```
 
-11. 加载更多：
+11.加载更多：
 ----------------
 
 ```
