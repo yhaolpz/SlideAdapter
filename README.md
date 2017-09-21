@@ -4,27 +4,34 @@
 ===
 
 1.自定义侧滑菜单布局
+
 2.添加头部、底部
+
 3.轻松实现加载更多
+
 4.设置 item 间距
+
 5.多种 item 类型
+
 6.支持 LinearLayout 及 GridLayout
+
 7.一句代码实现所有功能
+
 
 效果:
 ===
 
 **左侧滑菜单、右侧滑菜单、自定义菜单布局：**
 
-![这里写图片描述](http://img.blog.csdn.net/20170920181953810?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920212404974?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920183517786?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/1.gif)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/2.gif)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/3.gif)
 
 **头部、多头部：**
 
-![这里写图片描述](http://img.blog.csdn.net/20170920201642825?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920201655828?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920201704687?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/4.jpg)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/5.jpg)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/6.jpg)
 
 **底部、多底部、加载更多：**
 
-![这里写图片描述](http://img.blog.csdn.net/20170920204208305?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920211421054?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)&nbsp;&nbsp;![这里写图片描述](http://img.blog.csdn.net/20170920212035146?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWhhb2xweg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/7.jpg)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/8.gif)&nbsp;&nbsp;![效果图](https://raw.githubusercontent.com/yhaolpz/SlideAdapter/master/img-folder/9.gif)
 
 集成：
 ===
@@ -45,9 +52,7 @@
 	dependencies {
 	        compile 'com.github.yhaolpz:SlideAdapter:1.0.0'
 	}
-
 ```
-
 
 使用：
 ===
@@ -110,7 +115,8 @@ SlideAdapter.load(data)           //加载数据
 ```
 
 2. 数据绑定及事件监听：
-----------------
+----------
+
 
 ```
 SlideAdapter.load(data)
@@ -405,7 +411,7 @@ onBottom 方法中的 footer 为最后一个底部，若未添加底部，则 fo
 
 这是我的第一个开源库，功力尚浅，如果你在使用过程中遇到了什么问题，随时可以向我反馈，我会第一时间回复并改正。如果你想在此库的基础上添加自己的功能，欢迎 fork、欢迎 star 。
 
-**源码：**https://github.com/yhaolpz/SlideAdapter
+
 
 
 
