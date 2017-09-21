@@ -364,7 +364,7 @@ SlideAdapter.load(data)
 
 </LinearLayout>
 ```
-对头部的数据绑定及事件监听在 FooterBind 中实现：
+对底部的数据绑定及事件监听在 FooterBind 中实现：
 
 ```java
 SlideAdapter.load(data)
