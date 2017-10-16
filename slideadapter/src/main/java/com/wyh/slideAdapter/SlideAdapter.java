@@ -90,9 +90,9 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
             if (mHeaders.get(position).heightRatio > 0) {
                 contentParams.height = (int) (ScreenSize.h(contentView.getContext()) *
                         mHeaders.get(position).heightRatio);
-                contentParams.width = mHeadFootViewWidth;
-                contentView.setLayoutParams(contentParams);
             }
+            contentParams.width = mHeadFootViewWidth;
+            contentView.setLayoutParams(contentParams);
             if (mHeaderBind != null) {
                 mHeaderBind.onBind(holder, position + 1);
             }
@@ -102,9 +102,9 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
             if (mFooters.get(position - getHeaderNum() - mData.size()).heightRatio > 0) {
                 contentParams.height = (int) (ScreenSize.h(contentView.getContext()) *
                         mFooters.get(position - getHeaderNum() - mData.size()).heightRatio);
-                contentParams.width = mHeadFootViewWidth;
-                contentView.setLayoutParams(contentParams);
             }
+            contentParams.width = mHeadFootViewWidth;
+            contentView.setLayoutParams(contentParams);
             if (mFooterBind != null) {
                 mFooterBind.onBind(holder, position - getHeaderNum() - mData.size() + 1);
             }
@@ -376,7 +376,6 @@ public class SlideAdapter extends RecyclerView.Adapter<ItemView> {
         }
         return mBuilder;
     }
-
 
 
 }
